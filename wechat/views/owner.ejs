@@ -1,0 +1,73 @@
+
+    <% include header.ejs %>
+    <div class="container">
+
+      <div class="blog-header">
+        <h1 class="blog-title"><%=session.username%>的说说空间</h1>
+        <p class="lead blog-description">欢迎您回来 快来发表今天的心情吧.</p>
+      </div>
+
+      <div class="row">
+            
+        <div class="col-sm-8 blog-main">
+            <p class="text-primary">发表说说</p>
+            <textarea class="form-control" rows="3" name="content" id="content"></textarea>
+            </br>
+            <button type="button" class="btn btn-primary pull-right">发表</button>
+            </br>
+            <% if(list.length > 0){ for(var i =0 ; i < list.length;i++){ %>
+          <div class="blog-post">
+            <h3 ><%=list[i].username%></h3>
+            <p class="blog-post-meta"><%=list[i].create_time%></p>
+            <blockquote>
+              <p><%=list[i].content%></p>
+            </blockquote>
+              <p class="bg-warning">
+              <% if(list[i].comment.length > 0){ for(var j =0; j < list[i].comment.length; j++ ){ %>
+              <p class="text-primary"><%=list[i].comment[j].username%>: <span class="text-danger"><%=list[i].comment[j].message%></span></p>
+              <% }} %>
+              </p>
+            <hr>
+            <p class="blog-post-meta"><strong class="star-number"><%=list[i].upvote%></strong>/<span class="glyphicon glyphicon-star" aria-hidden="true"></span></p>
+          </div><!-- /.blog-post -->
+          <% } }else{%>
+          <div class="blog-post">
+              你还没有说说呢，赶紧来发表吧！
+          </div>
+          <% } %>
+          <nav>
+            <ul class="pager">
+              <li><a href="#">Previous</a></li>
+              <li><a href="#">Next</a></li>
+            </ul>
+          </nav>
+
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>个性签名</h4>
+            <p><%=session.sign%></p>
+          </div>
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+    <% include footer.ejs %>
+    <script>
+    $(function(){
+        $(".btn").click(function(){
+            var content = $("#content").val();
+            //清除表单内容
+             $("#content").val(" ");
+            $.post("/personsub",{content:content},function(data){
+                var html = '<div class="blog-post"> <h3 >'+data.username+'</h3><p class="blog-post-meta">'+data.create_time+'</p><blockquote><p>'+data.content+'</p></blockquote><hr></div>';
+                $(".blog-post").eq(0).prepend(html);
+            },'json');
+        });
+        
+    })
+    
+    </script>

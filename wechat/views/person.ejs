@@ -1,0 +1,178 @@
+<% include header.ejs %>
+<div class="container">
+
+      <div class="blog-header">
+        <h2 class="blog-post-title">个人资料</h2>
+        <p class="lead blog-description"><%=session.username%>的个人资料</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+            <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail" data-toggle="modal" data-target=".bs-example-modal-lg">
+                <img src="<% if(session.picture != 'undefined' && session.picture != '') {%> <%=session.picture%> <% }else{%> /images/default.jpg <% } %>" alt="头像">
+                <!--<div class="caption">
+                    <h5>Thumbnail label</h5>
+                    <p>...</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                </div>-->
+                </div>
+            </div>
+            </div>
+         
+
+          <div class="blog-post">
+            <!--<form action="">-->
+              <h3 >修改密码</h3>
+              <div class="form-group">
+                <label for="oldpassword">旧密码</label>
+                <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="oldpassword">
+              </div>
+              <div class="form-group">
+                <label for="newpassword">新密码</label>
+                <input type="password" class="form-control" id="newpassword"  name="newpassword" placeholder="newpassword">
+              </div>
+
+              <div class="form-group">
+                <label for="againpassword">再次密码</label>
+                <input type="password" class="form-control" id="againpassword" name="againpassword" placeholder=" again newpassword">
+              </div>
+
+              <div class="form-group">
+                <label for="sign">个性签名</label>
+                <textarea class="form-control" rows="3" name="sign" id="sign"></textarea>
+              </div>
+             
+              <button type="button" class="btn btn-primary" id="save">save</button>
+            <!--</form>-->
+          </div><!-- /.blog-post -->
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>个性签名</h4>
+            <p> <%=session.sign%></p>
+          </div>
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </div>
+
+
+    <!-- Modal -->
+    <!--<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">图片上传</h4>
+            </div>
+            <div class="modal-body">
+                <div class="kv-main">
+                <form enctype="multipart/form-data" onsubmit="return false;" action="">
+                <div id="imgdiv" ><img class="center-block" id="upload_img" width="50%" height="50%" src="/images/default.jpg" /></div>
+                </br>
+                    <div class="inline-labels">
+                    <label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
+                    <label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
+                    <label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
+                    <label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
+                    <label>W <input type="text" size="4" id="w" name="w" /></label>
+                    <label>H <input type="text" size="4" id="h" name="h" /></label>
+                    </div>
+                    <input id="up_img" class="file" type="file" multiple data-min-file-count="1">
+                   <input id="file-0a" class="file" type="file" multiple data-min-file-count="1">
+                </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+    </div>-->
+
+    <% include footer.ejs %>
+    <!--<script src="/js/uploadPreview.js"></script>
+    <script src="/js/jquery.Jcrop.min.js"></script>-->
+
+    
+    <script>
+        $(function(){
+            $(".thumbnail").dblclick(function(){
+                window.location = "/cropper";
+            });
+            $("#save").click(function(){
+              var oldpassword = $("#oldpassword").val();
+              var newpassword = $("#newpassword").val();
+              var againpassword = $("#againpassword").val();
+              var sign = $("#sign").val();
+              $.post("/setaccount",{sign:sign,oldpassword:oldpassword,newpassword:newpassword,againpassword:againpassword},function(data){
+                  if(data.code == "1"){
+                    alert(data.message);
+                    
+                  }else if(typeof data.error != "undefined"){
+                    alert(data.error);
+                  }
+                  window.location.href = "/setaccount";
+              },"json");
+            });
+        });
+         // $("#file-0").fileinput({
+        //     'allowedFileExtensions' : ['jpg', 'png','gif'],
+        // });
+
+        // $(function(){
+        //     // $(".thumbnail").dblclick(function(){
+        //     //     window.location = "/cropper";
+        //     // });
+        //     var inputVal = $("#up_img").val();
+        //     $('#up_img').on('input propertychange',function(){
+        //         console.log(inputVal);
+        //     　　if($.trim(inputVal).length > 0){
+        //          var jcrop_api;
+
+        //         $('#upload_img').Jcrop({
+        //         onChange:   showCoords,
+        //         onSelect:   showCoords,
+        //         onRelease:  clearCoords
+        //         },function(){
+        //             jcrop_api = this;
+        //         });
+
+        //         $('#coords').on('change','input',function(e){
+        //         var x1 = $('#x1').val(),
+        //             x2 = $('#x2').val(),
+        //             y1 = $('#y1').val(),
+        //             y2 = $('#y2').val();
+        //             jcrop_api.setSelect([x1,y1,x2,y2]);
+        //         });
+
+        //     }else{
+        //         new uploadPreview({ UpBtn: "up_img", DivShow: "imgdiv", ImgShow: "upload_img" });
+        //     }
+        //     });
+
+        // });
+
+
+        // function showCoords(c)
+        // {
+        //     $('#x1').val(c.x);
+        //     $('#y1').val(c.y);
+        //     $('#x2').val(c.x2);
+        //     $('#y2').val(c.y2);
+        //     $('#w').val(c.w);
+        //     $('#h').val(c.h);
+        // };
+
+        // function clearCoords()
+        // {
+        //     $('#coords input').val('');
+        // };
+
+    </script>

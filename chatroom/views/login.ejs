@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+<!-- css files -->
+<link href="/css/style.css" rel='stylesheet' type='text/css' media="all" />
+<!-- /css files -->
+</head>
+<body>
+<h1>登录界面</h1>
+<div class="log">
+	<div class="content1">
+		<h2>Sign In Form</h2>
+		<form>
+			<input type="text" name="username" id="username" value="" placeholder="USERNAME">
+			<input type="password" name="password" id="password" value="" placeholder="PASSWORD">
+			<div class="button-row">
+				<input type="button" class="sign-in" value="Sign In">
+				<input type="button" class="reset" value="Sign Up">
+				<div class="clear"></div>
+			</div>
+		</form>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="footer">
+	<p>Copyright &copy;</p>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script>
+    $(function(){
+        //跳到注册页面
+        $(".reset").click(function(){
+            location.href = "/register";
+        });
+
+		$(".sign-in").click(function(){
+			var username = $("#username").val();
+			var password = $("#password").val();
+
+			$.post("/login",{username:username,password:password},function(res){
+				if(typeof res == "undefined"){
+                    alert("服务器响应502");
+                    return false;
+                }else if(res['code'] == "-1"){
+                    alert(res.error);
+                    return false;
+                }else{
+                   location.href = "/chat";
+                }
+			},'json');
+
+		});
+    });
+</script>

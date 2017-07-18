@@ -1,0 +1,5 @@
+mongodb建立索引（建立索引会是插入变慢 查询变快）
+db.collection.createIndex({"name":1,{unique:true}});
+1:表示为正向查询 从小到大
+-1：相反
+unique:索引唯一 就是所有文档的字段唯一 

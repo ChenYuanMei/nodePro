@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/css/default.css" />
+  	<link href="/css/cropper.css" rel="stylesheet">
+  	<link href="/css/main.css" rel="stylesheet">
+      <link href="/css/bootstrap.min.css" rel="stylesheet">
+	<!--[if IE]>
+		<script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="htmleaf-container">
+		<!-- Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <!-- <h3 class="page-header">Demo:</h3> -->
+        <div class="img-container">
+          <img src="/images/picture.jpg" alt="Picture">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <!-- <h3 class="page-header">Preview:</h3> -->
+        <div class="docs-preview clearfix">
+          <div class="img-preview preview-lg"></div>
+          <div class="img-preview preview-md"></div>
+          <div class="img-preview preview-sm"></div>
+          <div class="img-preview preview-xs"></div>
+        </div>
+
+        <!-- <h3 class="page-header">Data:</h3> -->
+        <form  method="post" action="/uploads" enctype="multipart/form-data" >
+        <div class="docs-data">
+          <div class="input-group">
+            <label class="input-group-addon" for="dataX">X</label>
+            <input class="form-control" id="dataX" type="text" name="x" placeholder="x">
+            <span class="input-group-addon">px</span>
+          </div>
+          <div class="input-group">
+            <label class="input-group-addon" for="dataY">Y</label>
+            <input class="form-control" id="dataY" type="text" name="y" placeholder="y">
+            <span class="input-group-addon">px</span>
+          </div>
+          <div class="input-group">
+            <label class="input-group-addon" for="dataWidth">Width</label>
+            <input class="form-control" id="dataWidth" type="text" name="width" placeholder="width">
+            <span class="input-group-addon">px</span>
+          </div>
+          <div class="input-group">
+            <label class="input-group-addon" for="dataHeight">Height</label>
+            <input class="form-control" id="dataHeight" type="text" name="height" placeholder="height">
+            <span class="input-group-addon">px</span>
+          </div>
+          <input class="sr-only" id="inputImage" name="file" type="file" accept="image/*">
+        </div>
+        <button type="button" class="btn btn-primary cancel">cancel</button>
+        <button type="submit" class="btn btn-primary">save</button>
+      </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-9 docs-buttons">
+        <!-- <h3 class="page-header">Toolbar:</h3> -->
+        <div class="btn-group">
+          <button class="btn btn-primary" data-method="setDragMode" data-option="move" type="button" title="Move">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setDragMode&quot;, &quot;move&quot;)">
+              <span class="icon icon-move"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="setDragMode" data-option="crop" type="button" title="Crop">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setDragMode&quot;, &quot;crop&quot;)">
+              <span class="icon icon-crop"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="zoom" data-option="0.1" type="button" title="Zoom In">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;zoom&quot;, 0.1)">
+              <span class="icon icon-zoom-in"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="zoom" data-option="-0.1" type="button" title="Zoom Out">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;zoom&quot;, -0.1)">
+              <span class="icon icon-zoom-out"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="rotate" data-option="-45" type="button" title="Rotate Left">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;rotate&quot;, -45)">
+              <span class="icon icon-rotate-left"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="rotate" data-option="45" type="button" title="Rotate Right">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;rotate&quot;, 45)">
+              <span class="icon icon-rotate-right"></span>
+            </span>
+          </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-primary" data-method="disable" type="button" title="Disable">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;disable&quot;)">
+              <span class="icon icon-lock"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="enable" type="button" title="Enable">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;enable&quot;)">
+              <span class="icon icon-unlock"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="clear" type="button" title="Clear">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;clear&quot;)">
+              <span class="icon icon-remove"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="reset" type="button" title="Reset">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;reset&quot;)">
+              <span class="icon icon-refresh"></span>
+            </span>
+          </button>
+          <label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
+            <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">
+              <span class="icon icon-upload"></span>
+            </span>
+          </label>
+          <button class="btn btn-primary" data-method="destroy" type="button" title="Destroy">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;destroy&quot;)">
+              <span class="icon icon-off"></span>
+            </span>
+          </button>
+        </div>
+      </div><!-- /.docs-buttons -->
+    </div>
+  </div>
+  <!-- Alert -->
+	
+	<script src="/js/jquery.min.js"></script>
+	  <script src="/js/bootstrap.min.js"></script>
+	 <script src="/js/cropper.js"></script>
+	  <script src="/js/main.js"></script>
+</body>
+</html>
+
+<script>  
+$(".cancel").click(function(){
+  window.location = "/setaccount";
+});
+</script>

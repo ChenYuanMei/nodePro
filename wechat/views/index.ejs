@@ -1,0 +1,133 @@
+
+    <% include header.ejs %>
+    <div class="container">
+
+      <div class="blog-header">
+        <h1 class="blog-title">说说空间</h1>
+        <p class="lead blog-description">请在这里留下你的脚印 一步一脚印 快来吧.</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+            <div class="alert hidden alert-danger" role="alert"></div>
+           <% if(list.length > 0){ for(var i =0 ; i < list.length;i++){ %>
+          <div class="blog-post">
+            <h3 ><%=list[i].username%></h3>
+            <p class="blog-post-meta"><%=list[i].create_time%></p>
+            <input type="hidden" class="id"  name="id" value="<%=list[i]._id%>">
+            <blockquote>
+              <p><%=list[i].content%></p>
+            </blockquote>
+            <p class="bg-warning">
+            <% if(list[i].comment.length > 0){ for(var j =0; j < list[i].comment.length; j++ ){ %>
+            <p class="text-primary"><%=list[i].comment[j].username%>: <span class="text-danger"><%=list[i].comment[j].message%></span></p>
+            <% }} %>
+            </p>
+            <hr>
+            <p class="blog-post-meta"><strong class="star-number"><%=list[i].upvote%></strong>/<span class="glyphicon glyphicon-star" aria-hidden="true"></span></p>
+            <div class="collapse" id="collapseExample<%=i%>">
+              评论：
+                <textarea class="form-control" rows="3" name="comment" id="comment"></textarea>
+                  <!--<button type="button" class="btn btn-default  btn-sm pull-right" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                  </button>-->
+            </div>
+            </br>
+            <a class="btn btn-info pull-right btn-sm comment-btn" role="button" data-toggle="collapse" href="#collapseExample<%=i%>" aria-expanded="false" aria-controls="collapseExample" style="margin-left: 5px; ">
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            </a>
+
+          <a class="btn btn-info pull-right btn-sm upvote" role="button" data-toggle="collapse"  aria-expanded="false" aria-controls="collapseExample">
+             <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+          </a>
+          </div><!-- /.blog-post -->
+          <% } }else{%>
+          <div class="blog-post">
+             还没有说说呢，赶紧来发表吧！
+          </div>
+          <% } %>
+
+          <nav>
+            <ul class="pager">
+              <li><a href="#">Previous</a></li>
+              <li><a href="#">Next</a></li>
+            </ul>
+          </nav>
+
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>公告</h4>
+            <p>   <%=session.sign%></p>
+          </div>
+          <div class="sidebar-module">
+            <h4>用户列表</h4>
+            <ol class="list-unstyled">
+              <% if(userList.length > 0){ for(var i=0; i < userList.length; i++){%>
+              <li><a href="/user?username=<%=userList[i]%>"><%=userList[i]%></a></li>
+              <% }} %>
+            </ol>
+          </div>
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+    <% include footer.ejs %>
+    <script>
+    $(function(){
+      //评论操作
+        $(".comment-btn").each(function(){
+          $(this).click(function(){
+              //获取评论的内容
+            var obj = $(this).parent();
+            var comment = $.trim(obj.find("#comment").val());
+            var id = obj.find("input.id").val();
+            if(comment.length > 0){
+              $.post("/comment",{"comment":comment,"id":id},function(data){
+                if(data.code != "1"){
+                  $(".alert-danger").removeClass("hidden");
+                  $(".alert-danger").html(data.error);
+                  $(".alert-danger").removeClass("show");
+                }else{
+                  var pTag = obj.find("p.text-primary");
+                  var html = '<p class="text-primary">'+data.username+': <span class="text-danger">'+data.comment+'</span></p>';
+                  if(pTag.length == 0){
+                    obj.find("p.bg-warning").html(html);
+                  }else{
+                    obj.find("p.text-primary").last().append(html);
+                  } 
+                }
+              },'json');
+            }
+          });
+        });
+
+        //点赞操作
+        $(".upvote").each(function(){
+          $(this).click(function(){
+            var obj = $(this).parent();
+            var id = obj.find("input.id").val();
+            var upvote = true;
+
+            //修改
+            var span = '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>';
+            $(this).html(span);
+            $.post("/upvote",{id:id,upvote:upvote},function(res){
+               if(res.code != "1"){
+                  $(".alert-danger").removeClass("hidden");
+                  $(".alert-danger").html(res.error);
+                  $(".alert-danger").removeClass("show");
+                }else{
+                  obj.find(".star-number").html(res.upvote);
+                }
+            },'json');
+          });
+        });
+
+    });
+    
+    </script>

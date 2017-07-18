@@ -1,0 +1,18 @@
+cookie是不加密的 用户可以自由看见
+
+用户可以删除cookie 或者禁用他
+
+cookie可以被篡改
+
+cookie可以用于攻击
+
+cookie存储量很小 未来使用要被localStorage替代
+
+nodejs使用cookie需要使用npm包：cookie-parser
+
+
+session是依赖cookie的 npm包：express-session
+
+加密需要中间件 crypto
+
+图片处理 graphicsmagick npm包 gm

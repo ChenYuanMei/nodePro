@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>说说列表</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+      <h3 class="text-center">说说空间</h3>
+    <% for(var i=0; i < list.length;i++){%>
+    <div class="panel panel-success col-md-8 col-md-offset-2">
+        <div class="panel-heading"><%=list[i].title%></div>
+        <input type="hidden" value="<%=list[i].newsID%>" class="newsID" name="newsID">
+        <div class="panel-body">
+            <%=list[i].content%>
+        </div>
+        <div class="pinglun">
+            <% if(list[i].message.length > 0){ for(var j = 0 ; j < list[i].message.length; j++ ){%>
+            <p class="bg-danger"><%=list[i].message[j].content%></p>
+            <%}}%>
+        </div>
+        <div class="collapse" id="collapseExample<%=i%>">
+        <div class="well">
+            <textarea class="form-control content" rows="3" name="content"></textarea>
+            </br>
+             <div class="btn-group btn-group-sm col-lg-offset-11" role="group">
+                <button type="button" class="btn btn-primary publish">发表</button>
+            </div>
+        </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="col-md-3 col-md-offset-10"><%=list[i].username%>/ <%=list[i].datetime%></div>
+            <div class="btn-group btn-group-xs" role="group">
+                <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample<%=i%>" aria-expanded="false" aria-controls="collapseExample<%=i%>">
+                发表评论</a></div>
+        </div> 
+        
+    </div>
+    <% } %>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+        $(function(){
+            $(".publish").click(function(){
+                var _obj = $(this).parent().parent().parent().parent();
+                var _input = _obj.find($(".newsID")).val();
+                var content =_obj.find($(".content")).val();
+                
+                $.post("./list",{newsID:_input,content:content},function(res){
+                    if(res.success ==false){
+                        alert(res.message);
+                        return false;
+                    }
+                    var html = '<p class="bg-danger">'+res.content+'</p>';
+                    _obj.find($(".content")).val(" ");
+                    _obj.find($(".pinglun")).append(html);
+                },"json");
+            });
+
+        })
+    
+    </script>
+   
+  </body>
+</html>

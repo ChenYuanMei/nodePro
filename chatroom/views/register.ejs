@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<title>Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+<!-- css files -->
+<link href="/css/style.css" rel='stylesheet' type='text/css' media="all" />
+<!-- /css files -->
+</head>
+<body>
+<h1>注册界面</h1>
+<div class="log">
+	<div class="content2">
+		<h2>Sign Up Form</h2>
+		<form>
+			<input type="text" name="username" value="" id="username"  placeholder="USERNAME">
+			<input type="email" name="email" value="" id="email" placeholder="EMAIL ADDRESS">
+            <input type="password" name="password" id="password" value="" placeholder="PASSWORD">
+			<input type="password" name="repassword" value="" id="repassword" placeholder="REPASSWORD">
+			<input type="button" class="register" value="Register">
+		</form>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="footer">
+	<p>Copyright &copy;</p>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script>
+    $(function(){
+        $(".register").click(function(){
+            var username = $("#username").val();
+            var email = $("#email").val();
+            var password = $("#password").val();
+            var repassword = $("#repassword").val();
+
+            $.post("/register",{username:username,email:email,password:password,repassword:repassword},function(res){
+                if(typeof res == "undefined"){
+                    alert("服务器响应502");
+                    return false;
+                }else if(res['code'] == 1){
+                    alert(res.message);
+                    location.href = "/chat";
+                }else{
+                    alert(res.error);
+                    return;
+                }
+            },"json");
+        });
+    });
+</script>

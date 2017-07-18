@@ -1,0 +1,24 @@
+mongodb
+列出所有的数据库
+show dbs
+
+使用某个数据库（或者新建一个不存在的数据库）
+use 数据库名
+
+查看当前所在的数据库
+db
+
+显示所有的集合
+show collections
+
+删除数据库
+db.dropDatabase();
+
+删除某个collections集合
+db.collections.drop()
+
+分页
+db.collections.find().limit(10).skip(page * 10);
+
+获取数据总数
+db.collections.stats().count;
